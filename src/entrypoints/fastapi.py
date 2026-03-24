@@ -1,6 +1,7 @@
 import logging
 from contextlib import asynccontextmanager
 from decimal import Decimal
+from pickle import TRUE
 from typing import Annotated
 
 
@@ -50,6 +51,7 @@ async def lifespan(app: FastAPI):
 
     # Shutdown logic
     # Add any cleanup here if needed
+    print("Shutting down application", flush=TRUE)
 
 
 def create_app() -> FastAPI:
