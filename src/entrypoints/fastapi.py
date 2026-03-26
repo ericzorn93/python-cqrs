@@ -7,7 +7,7 @@ from typing import Annotated
 
 from cqrs.mediator import RequestMediator
 from fastapi import FastAPI, Depends, Request
-from pydantic import BaseModel, ConfigDict, Field, field_validator, condecimal
+from pydantic import BaseModel, ConfigDict, Field, condecimal
 from pydantic.alias_generators import to_camel
 
 from src.domain.commands import CreateOrderCommand
@@ -30,7 +30,7 @@ class CreateOrderResponse(BaseModel):
 
     status: str
     order_id: str
-    amount: condecimal(decimal_places=2) = Field(example="19.99")
+    amount: condecimal(decimal_places=2) = Field(0.00, example="19.99")
 
 def get_mediator(request: Request) -> RequestMediator:
     """Dependency provider to inject the mediator from app state."""
