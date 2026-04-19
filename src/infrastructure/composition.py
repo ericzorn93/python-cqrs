@@ -2,8 +2,8 @@ from cqrs.container.dependency_injector import DependencyInjectorCQRSContainer
 from cqrs.mediator import RequestMediator
 from cqrs.requests import bootstrap
 
-from src.infrastructure.container import Container
-from src.infrastructure.mappers import map_commands, map_domain_events
+from .container import Container
+from .mappers import map_commands, map_domain_events
 
 
 def build_mediator() -> RequestMediator:
