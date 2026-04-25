@@ -13,6 +13,7 @@ from pydantic.alias_generators import to_camel
 from src.domain.commands import CreateOrderCommand
 from src.infrastructure.composition import build_mediator
 from src.utils.logger import configure_logging
+from src.utils.logger import logger
 
 
 class CreateOrderRequest(BaseModel):
@@ -51,7 +52,7 @@ async def lifespan(app: FastAPI):
 
     # Shutdown logic
     # Add any cleanup here if needed
-    print("Shutting down application", flush=TRUE)
+    logger.info("Shutting down application")
 
 
 def create_app() -> FastAPI:
