@@ -11,12 +11,12 @@ requires-python = ">=3.14"
 dependencies = [
   "dependency-injector>=4.49.0",
   "di>=0.79.2",
-  "fastapi[standard]>=0.136.0",
-  "pydantic>=2.13.2",
-  "pydantic-settings>=2.13.1",
+  "fastapi[standard]>=0.136.1",
+  "pydantic>=2.13.3",
+  "pydantic-settings>=2.14.0",
   "python-cqrs>=4.10.1",
   "python-json-logger>=4.1.0",
-  "uvicorn>=0.44.0",
+  "uvicorn>=0.46.0",
 ]
 
 [tool.hatch.build.targets.wheel]
