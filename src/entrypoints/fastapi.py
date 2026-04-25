@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field, condecimal
 from pydantic.alias_generators import to_camel
 
 from src.domain.commands import CreateOrderCommand
+from src.domain.queries import GetOrdersQuery
 from src.infrastructure.composition import build_mediator
 from src.utils.logger import configure_logging
 from src.utils.logger import logger
@@ -72,9 +73,19 @@ def create_app() -> FastAPI:
             amount=request.amount.quantize(Decimal("0.00")),
         )
 
+    @app.get("/orders")
+    async def get_orders(
+        mediator: Annotated[RequestMediator, Depends(get_mediator)],
+    ) -> list:
+        """Get all orders via CQRS query."""
+        query = GetOrdersQuery()
+        resp = await mediator.send(query)
+        return resp
+
     @app.get("/health")
     async def health(mediator: Annotated[RequestMediator, Depends(get_mediator)]) -> dict:
         """Health check endpoint - also uses dependency injection."""
         return {"status": "healthy", "mediator": type(mediator).__name__}
+
 
     return app
