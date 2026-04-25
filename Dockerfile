@@ -12,4 +12,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf 
 WORKDIR /app
 COPY --from=builder /app/.venv .venv/
 COPY . .
+EXPOSE 8000
 CMD [".venv/bin/python", "-m", "uvicorn", "src.entrypoints.fastapi:create_app", "--host", "0.0.0.0", "--port", "8000"]
