@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /app
 
 RUN pip install uv
-COPY pyproject.toml ./
+COPY pyproject.toml README.md ./
 RUN uv sync
 FROM python:3.14-slim
 WORKDIR /app

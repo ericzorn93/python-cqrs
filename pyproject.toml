@@ -11,7 +11,7 @@ requires-python = ">=3.14"
 dependencies = [
   "dependency-injector>=4.49.0",
   "di>=0.79.2",
-  "fastapi>=0.136.0",
+  "fastapi[standard]>=0.136.0",
   "pydantic>=2.13.2",
   "pydantic-settings>=2.13.1",
   "python-cqrs>=4.10.1",
