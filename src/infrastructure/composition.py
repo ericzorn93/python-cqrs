@@ -14,5 +14,7 @@ def build_mediator() -> RequestMediator:
         di_container=di_container,
         commands_mapper=map_commands,
         domain_events_mapper=map_domain_events,
-        queries_mapper=map_queries
+        queries_mapper=map_queries,
+        max_concurrent_event_handlers=10,
+        concurrent_event_handle_enable=True,
     )
