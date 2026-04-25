@@ -78,15 +78,3 @@ def create_app() -> FastAPI:
         return {"status": "healthy", "mediator": type(mediator).__name__}
 
     return app
-
-
-def run() -> None:
-    """Run the FastAPI server with uvicorn."""
-    import uvicorn
-
-    app = create_app()
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
-
-if __name__ == "__main__":
-    run()

@@ -11,4 +11,4 @@ FROM python:3.14-slim
 WORKDIR /app
 COPY --from=builder /app/.venv .venv/
 COPY . .
-CMD [".venv/bin/fastapi", "run"]
+CMD [".venv/bin/python", "-m", "uvicorn", "src.entrypoints.fastapi:create_app", "--host", "0.0.0.0", "--port", "8000"]
