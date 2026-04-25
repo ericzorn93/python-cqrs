@@ -3,7 +3,7 @@ from cqrs.mediator import RequestMediator
 from cqrs.requests import bootstrap
 
 from .container import Container
-from .mappers import map_commands, map_domain_events
+from .mappers import map_commands, map_queries, map_domain_events
 
 
 def build_mediator() -> RequestMediator:
@@ -14,4 +14,5 @@ def build_mediator() -> RequestMediator:
         di_container=di_container,
         commands_mapper=map_commands,
         domain_events_mapper=map_domain_events,
+        queries_mapper=map_queries
     )

@@ -11,5 +11,8 @@ def map_commands(mapper: RequestMap) -> None:
     mapper.bind(CreateOrderCommand, CreateOrderHandler)
 
 
+def map_queries(mapper: RequestMap) -> None:
+    pass
+
 def map_domain_events(mapper: EventMap) -> None:
     mapper.bind(OrderCreatedEvent, OrderCreatedEventHandler)
