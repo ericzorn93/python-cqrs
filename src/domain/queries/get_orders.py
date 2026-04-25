@@ -1,5 +1,5 @@
-from cqrs.requests.request import Request
+from cqrs.requests.request import PydanticRequest
 
 
-class GetOrdersQuery(Request):
+class GetOrdersQuery(PydanticRequest):
     pass
