@@ -1,3 +1,4 @@
-from src.domain.commands.create_order import CreateOrderCommand
+from src.domain.commands.create_order import (CreateOrderCommand,
+                                              CreateOrderCommandResponse)
 
-__all__ = ["CreateOrderCommand"]
+__all__ = ["CreateOrderCommand", "CreateOrderCommandResponse"]

@@ -1,12 +1,14 @@
 from cqrs.events.event import IEvent
 from cqrs.requests.request_handler import RequestHandler
 
-from src.domain.commands import CreateOrderCommand
+from src.domain.commands import CreateOrderCommand, CreateOrderCommandResponse
 from src.domain.events import OrderCreatedEvent
 from src.utils.logger import logger
 
 
-class CreateOrderHandler(RequestHandler[CreateOrderCommand, None]):
+class CreateOrderHandler(
+    RequestHandler[CreateOrderCommand, CreateOrderCommandResponse]
+):
     def __init__(self) -> None:
         self._events: list[IEvent] = []
 
@@ -14,7 +16,7 @@ class CreateOrderHandler(RequestHandler[CreateOrderCommand, None]):
     def events(self) -> list[IEvent]:
         return self._events
 
-    async def handle(self, request: CreateOrderCommand) -> None:
+    async def handle(self, request: CreateOrderCommand) -> CreateOrderCommandResponse:
         logger.info(
             "Handling CreateOrder: order_id=%s amount=%s",
             request.order_id,
@@ -27,3 +29,5 @@ class CreateOrderHandler(RequestHandler[CreateOrderCommand, None]):
             "Collected OrderCreatedEvent for order_id=%s (pending emit)",
             request.order_id,
         )
+
+        return CreateOrderCommandResponse(is_success=True)

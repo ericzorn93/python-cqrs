@@ -4,17 +4,15 @@ from decimal import Decimal
 from pickle import TRUE
 from typing import Annotated
 
-
 from cqrs.mediator import RequestMediator
-from fastapi import FastAPI, Depends, Request
+from fastapi import Depends, FastAPI, Request
 from pydantic import BaseModel, ConfigDict, Field, condecimal
 from pydantic.alias_generators import to_camel
 
-from src.domain.commands import CreateOrderCommand
+from src.domain.commands import CreateOrderCommand, CreateOrderCommandResponse
 from src.domain.queries import GetOrdersQuery
 from src.infrastructure.composition import build_mediator
-from src.utils.logger import configure_logging
-from src.utils.logger import logger
+from src.utils.logger import configure_logging, logger
 
 
 class CreateOrderRequest(BaseModel):
@@ -33,6 +31,7 @@ class CreateOrderResponse(BaseModel):
     status: str
     order_id: str
     amount: condecimal(decimal_places=2) = Field(0.00, example="19.99")
+
 
 def get_mediator(request: Request) -> RequestMediator:
     """Dependency provider to inject the mediator from app state."""
@@ -65,10 +64,18 @@ def create_app() -> FastAPI:
         mediator: Annotated[RequestMediator, Depends(get_mediator)],
     ) -> CreateOrderResponse:
         """Create a new order via CQRS mediator using dependency injection."""
-        command = CreateOrderCommand(order_id=request.order_id, amount=float(request.amount))
-        await mediator.send(command)
+        command = CreateOrderCommand(
+            order_id=request.order_id, amount=float(request.amount)
+        )
+        resp: CreateOrderCommandResponse = await mediator.send(command)
+        logger.info(
+            "CreateOrderCommand response: is_success=%s for order_id=%s",
+            resp.is_success,
+            request.order_id,
+        )
+
         return CreateOrderResponse(
-            status="success",
+            status="success" if resp.is_success else "failure",
             order_id=request.order_id,
             amount=request.amount.quantize(Decimal("0.00")),
         )
@@ -83,9 +90,10 @@ def create_app() -> FastAPI:
         return resp
 
     @app.get("/health")
-    async def health(mediator: Annotated[RequestMediator, Depends(get_mediator)]) -> dict:
+    async def health(
+        mediator: Annotated[RequestMediator, Depends(get_mediator)],
+    ) -> dict:
         """Health check endpoint - also uses dependency injection."""
         return {"status": "healthy", "mediator": type(mediator).__name__}
-
 
     return app
